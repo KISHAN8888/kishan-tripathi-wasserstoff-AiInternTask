@@ -1,0 +1,16 @@
+# Ignore Python bytecode files
+__pycache__/
+*.py[cod]
+
+# Ignore the .env file containing secrets and environment variables
+.env
+
+# Ignore virtual environment folder
+pdfsumm/
+
+# Ignore IDE settings (if applicable)
+.vscode/
+.idea/
+
+# Ignore logs (optional)
+*.log
