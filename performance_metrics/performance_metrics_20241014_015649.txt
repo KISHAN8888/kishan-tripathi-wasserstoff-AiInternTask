@@ -1,0 +1,11 @@
+{
+  "processing_time": 31.434025764465332,
+  "avg_cpu_usage": 6.074193548387097,
+  "avg_memory_usage": 95.7741935483871,
+  "avg_document_time": 8.639324108759562,
+  "document_times": {
+    "agents_SRS.pdf": 6.402033090591431,
+    "relive_media_merged.pdf": 4.065831184387207,
+    "yolov9.pdf": 15.450108051300049
+  }
+}
