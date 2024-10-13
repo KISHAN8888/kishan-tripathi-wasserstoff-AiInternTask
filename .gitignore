@@ -16,9 +16,11 @@ pdfsumm/
 *.log
 
 
-
-main.2py
+# extra files
+main2.py
 summarizer3.py
 testpdfprocessor.py
 error_handler.py
 testchunking2.py
+test1.py
+logger.py
