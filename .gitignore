@@ -15,7 +15,7 @@ pdfsumm/
 # Ignore logs (optional)
 *.log
 
-# Ignore test files
+
 
 main.2py
 summarizer3.py
