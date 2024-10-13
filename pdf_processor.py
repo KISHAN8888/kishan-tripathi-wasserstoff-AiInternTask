@@ -1,24 +1,18 @@
 import os
-import PyPDF2
-from PyPDF2 import PdfReader
-import re
 from concurrent.futures import ProcessPoolExecutor, as_completed
 from datetime import datetime
 import logging
+import time
 from keyword_extractor import KeywordExtractor
 from summarizer import DynamicSummarizer
+import PyPDF2
+from PyPDF2 import PdfReader
+import re
+from utlis import extract_paragraphs_with_boundaries, merge_short_paragraphs_with_overlap
 
-# Set up logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
 
 def process_pdfs(folder_path, max_workers=4):
-    """
-    Process multiple PDFs concurrently from the given folder.
-    
-    :param folder_path: Path to the folder containing PDFs
-    :param max_workers: Maximum number of worker processes
-    :return: List of processed document information
-    """
     processed_docs = []
     pdf_files = [f for f in os.listdir(folder_path) if f.endswith('.pdf')]
     
@@ -28,13 +22,14 @@ def process_pdfs(folder_path, max_workers=4):
             pdf = future_to_pdf[future]
             try:
                 doc_info = future.result()
-                
                 processed_docs.append(doc_info)
-                logging.info(f"Processed: {pdf}")
+                logger.info(f"Processed: {pdf} in {doc_info['processing_time']:.2f} seconds")
             except Exception as e:
-                logging.error(f"Error processing {pdf}: {str(e)}")
+                logger.error(f"Error processing {pdf}: {str(e)}")
     
     return processed_docs
+
+# Rest of the file remains the same...
 
 def process_single_pdf(file_path):
     """
@@ -43,13 +38,18 @@ def process_single_pdf(file_path):
     :param file_path: Path to the PDF file
     :return: Dictionary containing document information
     """
+    start_time = time.time()
     doc_info = extract_pdf_info(file_path)
     doc_info['content'] = extract_pdf_content(file_path)
     doc_info['length_category'] = classify_document_length(doc_info['num_pages'])
     paragraphs = extract_paragraphs_with_boundaries(file_path)
-    doc_info['final_paragraphs'] = merge_short_paragraphs(paragraphs)
-    doc_info['summary'] = summarize(doc_info, file_path)
+    doc_info['final_paragraphs'] = merge_short_paragraphs_with_overlap(paragraphs)
+    summarystored = summarize(doc_info, file_path)
+    doc_info['summary'] = summarystored
     doc_info['keywords'] = extract_keywords(doc_info)
+    end_time = time.time()
+    doc_info['processing_time'] = end_time - start_time
+    
     
     return doc_info
 
@@ -160,7 +160,7 @@ def classify_document_length(num_pages):
         num_pages = int(num_pages)  # Ensure num_pages is an integer
         if num_pages <= 2:
             return "short"
-        elif num_pages <= 12:
+        elif num_pages <= 30:
             return "medium"
         else:
             return "long"
@@ -186,8 +186,12 @@ def extract_keywords(doc_info):
     :return: List of extracted keywords
     """
     extractor = KeywordExtractor()
-    keywords = extractor.extract_keywords(doc_info['content'], num_keywords=10)
-    return keywords  # Return only the keywords list
+    initial_keywords, refined_keywords = extractor.process_document(
+        doc_info['content'], 
+        doc_info['num_pages'], 
+        doc_info['summary']
+    )
+    return refined_keywords # Return only the keywords list
 
 def summarize(doc_info, file_path):
     """
@@ -211,6 +215,7 @@ if __name__ == "__main__":
     for doc in processed_docs:
         print(f"Processed: {doc['filename']}")
         print(f"Number of pages: {doc['num_pages']}")
-        print(f"Keywords: {doc['keywords']}")
-        print(f"Summary:{doc['summary']})")
+        
+        print(f"Refined Keywords: {', '.join(doc['keywords'])}")
+        print(f"Summary: {doc['summary']}")
         print("---")

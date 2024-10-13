@@ -4,8 +4,8 @@ import numpy as np
 from nltk.tokenize import sent_tokenize, word_tokenize
 from sklearn.feature_extraction.text import TfidfVectorizer
 from groq import Groq
-from test2parachunking import extract_paragraphs_with_boundaries
-from test2parachunking import merge_short_paragraphs
+from utlis import extract_paragraphs_with_boundaries, merge_short_paragraphs_with_overlap
+from PyPDF2 import PdfReader  # For getting the number of pages from the PDF
 
 # Download necessary NLTK data
 nltk.download('punkt')
@@ -15,7 +15,7 @@ class DynamicSummarizer:
         self.vectorizer = TfidfVectorizer(stop_words='english')
         self.client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
 
-    def extract_key_sentences(self, paragraph, ratio=0.33):
+    def extract_key_sentences(self, paragraph, ratio=0.5):
         """
         Extract key sentences from the paragraph based on TF-IDF scores.
         Adjust the number of sentences based on paragraph length.
@@ -51,11 +51,26 @@ class DynamicSummarizer:
         
         return selected_sentences
 
-    def call_llm(self, sentences):
+    def call_llm(self, sentences, is_final_summary=False):
         """
         Call the Groq LLM to generate a summary based on the key sentences.
         """
-        prompt = "Summarize the following text in about 30 words and give only summary text nothing like this:Here is a summary of the text in about 30 words: :\n" + " ".join(sentences)
+        if is_final_summary:
+            prompt = (
+                "You have now received summaries of various sections of a larger document. "
+                "Based on these partial summaries, generate a final,summary that captures the overall "
+                "main themes and key points of the document. Ensure the final summary flows smoothly "
+                "and avoids any repetition.\n\n"
+                f"{' '.join(sentences)}\n\n"
+                "Generate the final, summary with size same exactly same as the input include evrything literally evrything properly just concatenate evrything well and strucutred so that it is descriptive based on the above content."
+            )
+        else:
+            prompt = (
+                "You are a helpful chatbot and an expert in extracting the main themes from a given document. "
+                "You have been provided a set of documents below:\n\n"
+                f"{' '.join(sentences)}\n\n"
+                "Based on this set of documents, please identify the main themes. Avoid unnecessary introduction in the response."
+            )
         print(f"Sending to Groq LLM: {prompt}")
         try:
             chat_completion = self.client.chat.completions.create(
@@ -74,39 +89,50 @@ class DynamicSummarizer:
             print(f"Error calling Groq LLM: {e}")
             return ""
     
-    def summarize_document(self, chunks):
+    def summarize_document(self, chunks,pdf_path):
         """
-        Summarize the entire document by processing each chunk (provided as a list of strings),
-        extracting key sentences, and summarizing each chunk using the LLM.
+        Summarize the document. If the document has fewer than 3 pages, send the entire text
+        to the LLM. Otherwise, process and summarize each paragraph.
         """
-        all_summaries = []
-
-        for i, chunk in enumerate(chunks):
-            print(f"\nSummarizing chunk {i+1}/{len(chunks)}:")
-            key_sentences = self.extract_key_sentences(chunk)
-            if key_sentences:
-                summary = self.call_llm(key_sentences)
-                all_summaries.append(summary)
+        # Get number of pages
+        pdf_reader = PdfReader(pdf_path)
+        num_pages = len(pdf_reader.pages)
+#
         
-        final_summary = " ".join(all_summaries)
-        return final_summary
+        if num_pages < 3:
+            # If the document has less than 3 pages, send the entire text to the LLM
+            entire_text = " ".join(chunks)
+            print(f"Document has {num_pages} pages. Sending the entire text to the LLM.")
+            return self.call_llm([entire_text])
+        else:
+            # Otherwise, process the document in chunks and summarize each chunk
+            all_summaries = []
+
+            for i, chunk in enumerate(chunks):
+                print(f"\nSummarizing chunk {i+1}/{len(chunks)}:")
+                key_sentences = self.extract_key_sentences(chunk)
+                if key_sentences:
+                    summary = self.call_llm(key_sentences)
+                    all_summaries.append(summary)
+            
+            
+            final_concatenated_summary = " ".join(all_summaries)
+            print("\nConcatenated summary of all chunks:\n", final_concatenated_summary)
+            
+            # Send the concatenated summary to the LLM for a refined final summary
+            final_summary = self.call_llm([final_concatenated_summary], is_final_summary=True)
+            print(final_summary)
+            
+            return final_summary
 
 # Example usage:
 if __name__ == "__main__":
     summarizer = DynamicSummarizer()
 
-    pdf_path = "C:\\Users\\kisha\\Downloads\\Echo_report2.2.pdf"
+    pdf_path =  "C:\\Users\\kisha\\Desktop\\pdf_folder\\Operating System Notes.pdf"
     paragraphs = extract_paragraphs_with_boundaries(pdf_path)
-
-# Merge paragraphs that have fewer than 50 words
-    chunks = merge_short_paragraphs(paragraphs)  
+    chunks = merge_short_paragraphs_with_overlap(paragraphs)
     
-    # Example: List of string chunks (instead of a single text string)
-    #chunks = [
-    #    "At EY, our purpose is to build a better working world. We help digital pioneers fight data piracy, guide governments through crises, and unlock new treatments with data analytics.",
-    #    "Our Consulting practice provides technology consulting services, using disruptive technology like AI, blockchain, and cloud. We aim to solve complex business problems.",
-    #    "Cybersecurity has become a top priority for businesses. We help clients quantify risks and embed security in digital initiatives from day one."
-    #]
-
-    summary = summarizer.summarize_document(chunks)
+    summary = summarizer.summarize_document(chunks,pdf_path)
     print("\nFinal Summary:\n", summary)
+

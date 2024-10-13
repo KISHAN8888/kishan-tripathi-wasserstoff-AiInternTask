@@ -90,7 +90,7 @@ document_schema = {
     "creation_date": str,
     "file_size": int,
     "summary": str,
-    "keywords": list,
+    "keywords": str,
     "processing_status": str,
     "last_updated": str
 }
@@ -118,7 +118,7 @@ def create_document_schema(db_manager):
                 "creation_date": {"bsonType": "string"},
                 "file_size": {"bsonType": "int"},
                 "summary": {"bsonType": "string"},
-                "keywords": {"bsonType": "array"},
+                "keywords": {"bsonType": "string"},
                 "processing_status": {"bsonType": "string"},
                 "last_updated": {"bsonType": "string"}
             }

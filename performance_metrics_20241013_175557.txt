@@ -1,0 +1,46 @@
+{
+  "1": {
+    "processing_time": 24.342039823532104,
+    "avg_cpu_usage": 5.395833333333333,
+    "avg_memory_usage": 95.60416666666667,
+    "avg_document_time": 0.0,
+    "document_times": {
+      "r cnn.pdf": 0,
+      "re-detr.pdf": 0,
+      "sample.pdf": 0
+    }
+  },
+  "2": {
+    "processing_time": 17.295422315597534,
+    "avg_cpu_usage": 8.370588235294118,
+    "avg_memory_usage": 94.86470588235295,
+    "avg_document_time": 0.0,
+    "document_times": {
+      "re-detr.pdf": 0,
+      "r cnn.pdf": 0,
+      "sample.pdf": 0
+    }
+  },
+  "3": {
+    "processing_time": 16.289129972457886,
+    "avg_cpu_usage": 11.85625,
+    "avg_memory_usage": 94.04375,
+    "avg_document_time": 0.0,
+    "document_times": {
+      "sample.pdf": 0,
+      "re-detr.pdf": 0,
+      "r cnn.pdf": 0
+    }
+  },
+  "4": {
+    "processing_time": 20.302231550216675,
+    "avg_cpu_usage": 7.409999999999999,
+    "avg_memory_usage": 91.14,
+    "avg_document_time": 0.0,
+    "document_times": {
+      "sample.pdf": 0,
+      "re-detr.pdf": 0,
+      "r cnn.pdf": 0
+    }
+  }
+}

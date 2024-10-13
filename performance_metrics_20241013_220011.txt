@@ -1,0 +1,9 @@
+{
+  "processing_time": 22.317657709121704,
+  "avg_cpu_usage": 3.5136363636363637,
+  "avg_memory_usage": 94.00454545454545,
+  "avg_document_time": 17.288155555725098,
+  "document_times": {
+    "yolov9.pdf": 17.288155555725098
+  }
+}
