@@ -1,0 +1,9 @@
+{
+  "processing_time": 11.265815496444702,
+  "avg_cpu_usage": 6.445454545454544,
+  "avg_memory_usage": 96.84545454545454,
+  "avg_document_time": 5.4047465324401855,
+  "document_times": {
+    "agents_SRS.pdf": 5.4047465324401855
+  }
+}
