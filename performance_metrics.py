@@ -79,20 +79,20 @@ def measure_performance(func, max_workers, *args):
     return results
 
 def save_metrics_to_file(results):
-    # Define the directory to save the performance metrics files
+   
     directory = "performance_metrics"
     
-    # Create the directory if it doesn't exist
+    
     if not os.path.exists(directory):
         os.makedirs(directory)
     
-    # Generate the timestamped filename
+
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     filename = f"performance_metrics_{timestamp}.txt"
     
-    # Create the full file path
+   
     filepath = os.path.join(directory, filename)
     
-    # Save the results to the file
+
     with open(filepath, 'w') as f:
         json.dump(results, f, indent=2)

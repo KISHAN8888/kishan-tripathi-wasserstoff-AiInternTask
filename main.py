@@ -89,14 +89,14 @@ def main():
         
         pdf_folder = os.path.expanduser("~/Desktop/pdf_folder")
         
-        # Use measure_performance to wrap the PDF processing and database operations
+        # Using measure_performance to wrap the PDF processing and database operations as of now avoiding the performance_metrics.py
         processed_docs, performance_results = measure_performance(process_and_store_pdfs, pdf_folder, db_manager)
         
         logging.info(f"Processed {len(processed_docs)} documents")
         logging.info(f"Overall performance results: {performance_results}")
         
        
-       
+
         save_metrics_to_file(performance_results)
         
     except Exception as e:

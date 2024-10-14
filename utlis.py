@@ -32,7 +32,7 @@ def extract_paragraphs_with_boundaries(pdf_path, max_words=1500):
                 current_position = paragraph_end + 1
                 current_paragraph = word
         
-        # Add remaining words as a new paragraph
+        
         if current_paragraph:
             paragraph_start = current_position
             paragraph_end = current_position + len(current_paragraph)
@@ -112,7 +112,7 @@ def classify_document_length(num_pages):
     except ValueError:
         return "unknown"
 
-# Usage example:
+
 # pdf_path = "path/to/your/pdf/file.pdf"
 # paragraphs = extract_paragraphs_with_boundaries(pdf_path, max_words=1500)
 # final_paragraphs = merge_and_split_paragraphs(paragraphs, word_threshold=500, max_words=1500, overlap_percentage=0.1)
@@ -124,7 +124,7 @@ def classify_document_length(num_pages):
 #     print(paragraph)
 #     print("-" * 50)
 
-#Usage example:
+
 #pdf_path = "C:\\Users\\kisha\\Desktop\\pdf_folder\\yolov1-yolov10.pdf"
 #paragraphs = extract_paragraphs_with_boundaries(pdf_path)
 #final_paragraphs = merge_short_paragraphs_with_overlap(paragraphs, word_threshold=500, max_words=1500, overlap_percentage=0.1)
