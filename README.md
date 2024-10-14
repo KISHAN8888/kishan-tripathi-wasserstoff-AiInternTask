@@ -64,7 +64,7 @@ If you encounter any issues, please check the `pdf_processor.log` file for error
 
 ## Contributing
 
-We welcome contributions! Please see `CONTRIBUTING.md` for guidelines on how to submit issues, feature requests, and pull requests.
+We welcome contributions!! Don't bother to raise issues and pull requests.
 
 ## License
 
