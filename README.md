@@ -24,7 +24,7 @@ This project provides a powerful pipeline for processing PDF documents, generati
 
 1. Clone the repository:
    ```
-   git clone https://github.com/yourusername/pdf-summarization-pipeline.git
+   git clone https://github.com/KISHAN8888/kishan-tripathi-wasserstoff-AiInternTask.git
    cd pdf-summarization-pipeline
    ```
 
@@ -48,7 +48,7 @@ This project provides a powerful pipeline for processing PDF documents, generati
 
 ### Usage
 
-1. Place your PDF files in the `input_pdfs` folder.
+1. Place your PDF files in the `pdf_folder` folder in desktop.
 
 2. Run the pipeline:
    ```
