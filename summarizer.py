@@ -7,7 +7,7 @@ from groq import Groq
 from utlis import extract_paragraphs_with_boundaries, merge_short_paragraphs_with_overlap
 from PyPDF2 import PdfReader  # For getting the number of pages from the PDF
 
-# Download necessary NLTK data
+
 nltk.download('punkt')
 
 class DynamicSummarizer:
@@ -24,18 +24,17 @@ class DynamicSummarizer:
         num_sentences = len(sentences)
         
         if num_sentences == 0:
-            return []  # Empty paragraph
+            return [] 
         
         print(f"Processing paragraph with {num_sentences} sentences.")
         
-        # Convert sentences to TF-IDF representation
+        # convert sentences to TF-IDF representation
         tfidf_matrix = self.vectorizer.fit_transform(sentences)
-        sentence_scores = np.mean(tfidf_matrix.toarray(), axis=1)  # Score by averaging TF-IDF values
+        sentence_scores = np.mean(tfidf_matrix.toarray(), axis=1)  # score by averaging TF-IDF values
 
-        # Determine how many sentences to select based on the length of the paragraph
+        # determine how many sentences to select based on the length of the paragraph
         total_words = sum(len(word_tokenize(sent)) for sent in sentences)
-        words_to_select = int(total_words * ratio)  # Select sentences covering about 1/3 of the paragraph's words
-        
+        words_to_select = int(total_words * ratio) 
         selected_sentences = []
         selected_word_count = 0
         
@@ -94,7 +93,7 @@ class DynamicSummarizer:
         Summarize the document. If the document has fewer than 3 pages, send the entire text
         to the LLM. Otherwise, process and summarize each paragraph.
         """
-        # Get number of pages
+     
         pdf_reader = PdfReader(pdf_path)
         num_pages = len(pdf_reader.pages)
 #
@@ -119,13 +118,13 @@ class DynamicSummarizer:
             final_concatenated_summary = " ".join(all_summaries)
             print("\nConcatenated summary of all chunks:\n", final_concatenated_summary)
             
-            # Send the concatenated summary to the LLM for a refined final summary
+           
             final_summary = self.call_llm([final_concatenated_summary], is_final_summary=True)
             print(final_summary)
             
             return final_summary
 
-# Example usage:
+
 if __name__ == "__main__":
     summarizer = DynamicSummarizer()
 

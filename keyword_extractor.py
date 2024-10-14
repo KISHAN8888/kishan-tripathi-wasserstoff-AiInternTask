@@ -89,14 +89,14 @@ class KeywordExtractor:
             return refined_keywords
         except Exception as e:
             print(f"Error calling Groq LLM: {e}")
-            return original_keywords  # Fall back to original keywords if LLM call fails
+            return original_keywords 
 
     def process_document(self, text, num_pages, summary):
         initial_keyword_count = self.get_initial_keyword_count(num_pages)
         initial_keywords = self.extract_keywords(text, initial_keyword_count)
         refined_keywords = self.refine_keywords_with_llm(initial_keywords, summary)
         return initial_keywords, refined_keywords
-# Usage example
+
 if __name__ == "__main__":
     extractor = KeywordExtractor()
     

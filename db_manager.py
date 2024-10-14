@@ -17,7 +17,7 @@ class DatabaseManager:
         """Establish a connection to MongoDB."""
         try:
             self.client = MongoClient(self.connection_string, serverSelectionTimeoutMS=5000)
-            # The ismaster command is cheap and does not require auth.
+            # the ismaster command is cheap and does not require auth.
             self.client.admin.command('ismaster')
             self.db = self.client[self.db_name]
             logging.info("Successfully connected to MongoDB.")
@@ -81,7 +81,6 @@ class DatabaseManager:
         collection = self.db[collection_name]
         return collection.find_one(query)
 
-# Example schema for storing document metadata
 document_schema = {
     "filename": str,
     "path": str,
@@ -126,7 +125,8 @@ def create_document_schema(db_manager):
     })
     logging.info("Updated 'documents' collection schema.")
 
-# Usage example
+
+
 if __name__ == "__main__":
     db_manager = DatabaseManager(connection_string='mongodb://localhost:27017')
     try:

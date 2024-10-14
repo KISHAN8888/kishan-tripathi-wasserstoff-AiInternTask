@@ -1,0 +1,12 @@
+{
+  "total_execution_time": 33.39595675468445,
+  "avg_cpu_usage": 8.149999999999999,
+  "avg_memory_usage": 83.9,
+  "document_times": {
+    "Fellowship certificate - Mr Kishan Tripathi.pdf": 4.927754163742065,
+    "relive_media_merged.pdf": 5.9509923458099365,
+    "yolov9.pdf": 23.123299837112427,
+    "Operating System Notes.pdf": 29.113839149475098
+  },
+  "avg_document_time": 15.778971374034882
+}

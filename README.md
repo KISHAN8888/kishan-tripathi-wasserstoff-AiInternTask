@@ -57,14 +57,6 @@ This project provides a powerful pipeline for processing PDF documents, generati
 
 3. Find processed results in the MongoDB database and performance metrics in `performance_metrics_[timestamp].txt`.
 
-## Configuration
-
-Adjust settings in `config.py` to customize the pipeline:
-
-- `INPUT_FOLDER`: Path to the folder containing input PDFs
-- `MAX_WORKERS`: Number of parallel workers for PDF processing
-- `SUMMARY_LENGTH`: Desired length of generated summaries
-- `KEYWORD_COUNT`: Number of keywords to extract per document
 
 ## Troubleshooting
 

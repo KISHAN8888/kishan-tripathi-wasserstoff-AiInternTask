@@ -1,0 +1,9 @@
+{
+  "processing_time": 13.266605138778687,
+  "avg_cpu_usage": 8.076923076923077,
+  "avg_memory_usage": 96.39230769230768,
+  "avg_document_time": 7.274751663208008,
+  "document_times": {
+    "relive_media_merged.pdf": 7.274751663208008
+  }
+}

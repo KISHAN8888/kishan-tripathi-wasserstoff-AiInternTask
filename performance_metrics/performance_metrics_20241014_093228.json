@@ -1,0 +1,10 @@
+{
+  "total_execution_time": 9.754028081893921,
+  "avg_cpu_usage": 13.4,
+  "avg_memory_usage": 91.1,
+  "document_times": {
+    "Fellowship certificate - Mr Kishan Tripathi.pdf": 4.5826027393341064,
+    "relive_media_merged.pdf": 5.969583034515381
+  },
+  "avg_document_time": 5.276092886924744
+}

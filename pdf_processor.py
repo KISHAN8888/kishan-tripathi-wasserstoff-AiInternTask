@@ -29,7 +29,7 @@ def process_pdfs(folder_path, max_workers=4):
     
     return processed_docs
 
-# Rest of the file remains the same...
+
 
 def process_single_pdf(file_path):
     """
@@ -191,7 +191,7 @@ def extract_keywords(doc_info):
         doc_info['num_pages'], 
         doc_info['summary']
     )
-    return refined_keywords # Return only the keywords list
+    return refined_keywords 
 
 def summarize(doc_info, file_path):
     """
@@ -206,8 +206,7 @@ def summarize(doc_info, file_path):
     
     logging.info(f"Summary for {doc_info['filename']}: {summary}")
     
-    return summary  # Return only the summary string
-
+    return summary  
 
 if __name__ == "__main__":
     folder_path = "C:\\Users\\kisha\\Desktop\\pdf_folder"
