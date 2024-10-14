@@ -57,11 +57,11 @@ class DynamicSummarizer:
         if is_final_summary:
             prompt = (
                 "You have now received summaries of various sections of a larger document. "
-                "Based on these partial summaries, generate a final,summary that captures the overall "
+                "Based on these partial summaries, generate a final,summary by just removing the annotation like here is the , hte documents etc. and captures the overall each thing as descriptive as in partial ones."
                 "main themes and key points of the document. Ensure the final summary flows smoothly "
                 "and avoids any repetition.\n\n"
                 f"{' '.join(sentences)}\n\n"
-                "Generate the final, summary with size same exactly same as the input include evrything literally evrything properly just concatenate evrything well and strucutred so that it is descriptive based on the above content."
+                "Generate the final, summary file with size same exactly same as the input or even bigger include evrything literally evrything properly just concatenate evrything well and strucutred so that it is descriptive based on the above content."
             )
         else:
             prompt = (

@@ -1,0 +1,9 @@
+{
+  "total_execution_time": 20.315305471420288,
+  "avg_cpu_usage": 5.7,
+  "avg_memory_usage": 88.5,
+  "document_times": {
+    "r cnn.pdf": 17.59564471244812
+  },
+  "avg_document_time": 17.59564471244812
+}
